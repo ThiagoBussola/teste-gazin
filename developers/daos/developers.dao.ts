@@ -1,7 +1,6 @@
 import { CreateDeveloperDto } from '../dto/create.developer.dto'
 import { PutDeveloperDto } from '../dto/put.developer.dto'
-
-import mongooseService from '../../common/services/mongoose.service'
+import DeveloperModel from '../model/developer.model'
 
 import { v4 as uuid4 } from 'uuid'
 import debug from 'debug'
@@ -9,27 +8,13 @@ import debug from 'debug'
 const log: debug.IDebugger = debug('app:in-memory-dao')
 
 class DevelopersDao {
-  Schema = mongooseService.getMongoose().Schema
-
-  developerSchema = new this.Schema({
-    _id: String,
-    nome: String,
-    sexo: String,
-    idade: Number,
-    hobby: String,
-    datanascimento: Date
-  },
-  { id: false, timestamps: true })
-
-  Developer = mongooseService.getMongoose().model('Developers', this.developerSchema)
-
   constructor () {
     log('Created new instance of DevelopersDao')
   }
 
   async addDeveloper (developerFields: CreateDeveloperDto) {
     const developerId = uuid4()
-    const developer = new this.Developer({
+    const developer = await DeveloperModel.Developer.create({
       _id: developerId,
       ...developerFields
     })
@@ -38,7 +23,7 @@ class DevelopersDao {
   }
 
   async getDeveloperById (developerId: string) {
-    return this.Developer.findById({ _id: developerId }).exec()
+    return DeveloperModel.Developer.findById({ _id: developerId }).exec()
   }
 
   async getDevelopers (nome: string, sexo: string, idade: string, hobby: string, limit = 25, page = 0) {
@@ -71,14 +56,14 @@ class DevelopersDao {
       }
     }
 
-    return this.Developer.find(filter)
+    return DeveloperModel.Developer.find(filter)
       .limit(limit)
       .skip(limit * page)
       .exec()
   }
 
   async updateDeveloperById (developerId: string, developerFields: PutDeveloperDto) {
-    const existingDeveloper = await this.Developer.findByIdAndUpdate(developerId,
+    const existingDeveloper = await DeveloperModel.Developer.findByIdAndUpdate(developerId,
       { $set: developerFields },
       { new: true }
     ).exec()
@@ -87,7 +72,7 @@ class DevelopersDao {
   }
 
   async removeDeveloperById (developerId: string) {
-    return this.Developer.findByIdAndDelete(developerId).exec()
+    return DeveloperModel.Developer.findByIdAndDelete(developerId).exec()
   }
 }
 

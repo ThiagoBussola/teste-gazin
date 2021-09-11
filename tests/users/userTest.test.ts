@@ -1,13 +1,13 @@
 import app from '../../app'
 import * as request from 'supertest'
 import { v4 as uuid4 } from 'uuid'
-import usersDao from '../../users/daos/users.dao'
+import UserModel from '../../users/model/user.model'
 import mongoose from 'mongoose'
 
 describe('Users api endpoint', () => {
   // clear database after test
   afterAll(async () => {
-    await usersDao.User.deleteMany({})
+    await UserModel.User.deleteMany({})
     await mongoose.connection.close()
     app.close()
   })

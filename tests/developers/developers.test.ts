@@ -1,15 +1,15 @@
 import app from '../../app'
 import * as request from 'supertest'
 import { v4 as uuid4 } from 'uuid'
-import usersDao from '../../users/daos/users.dao'
-import developersDao from '../../developers/daos/developers.dao'
+import UserModel from '../../users/model/user.model'
+import DeveloperModel from '../../developers/model/developer.model'
 import mongoose from 'mongoose'
 
 describe('Developers api endpoint', () => {
   // clear database after test
   afterAll(async () => {
-    await usersDao.User.deleteMany({})
-    await developersDao.Developer.deleteMany({})
+    await UserModel.User.deleteMany({})
+    await DeveloperModel.Developer.deleteMany({})
     await mongoose.connection.close()
     app.close()
   })
@@ -48,7 +48,7 @@ describe('Developers api endpoint', () => {
 
   describe('/develpers endpoint', () => {
     it('should allow a POST to /developers', async () => {
-      // arrange
+    //     // arrange
 
       const developerArrange = {
         nome: 'Thiago Bussola da Silva Teste',
@@ -58,12 +58,12 @@ describe('Developers api endpoint', () => {
         datanascimento: '09/12/1998'
       }
 
-      // action
+      //     // action
       const res = await request.default(app).post('/developers').set('Authorization', `Bearer ${accessToken}`).send(developerArrange)
 
-      const fidedCreatedDeveloper = await developersDao.Developer.findOne({ nome: 'Thiago Bussola da Silva Teste' })
+      const fidedCreatedDeveloper = await DeveloperModel.Developer.findOne({ nome: 'Thiago Bussola da Silva Teste' })
 
-      // asserts
+      //     // asserts
       expect(res.status).toEqual(201)
       expect(res.body._id).toBeDefined()
       expect(res.body.nome).toBe(fidedCreatedDeveloper.nome)
@@ -73,9 +73,9 @@ describe('Developers api endpoint', () => {
       firstDeveloperIdTest = res.body._id
     })
 
-    /// let's create two more users using the route so we can filter them later
+    //   /// let's create two more users using the route so we can filter them later
     it('should allow a POST to /developers (creating another user for the tests)', async () => {
-      // arrange
+    //     // arrange
 
       const developerArrange = {
         nome: 'Matheus Bussola da Silva Teste',
@@ -85,12 +85,12 @@ describe('Developers api endpoint', () => {
         datanascimento: '09/12/1998'
       }
 
-      // action
+      //     // action
       const res = await request.default(app).post('/developers').set('Authorization', `Bearer ${accessToken}`).send(developerArrange)
 
-      const fidedCreatedDeveloper = await developersDao.Developer.findOne({ nome: 'Matheus Bussola da Silva Teste' })
+      const fidedCreatedDeveloper = await DeveloperModel.Developer.findOne({ nome: 'Matheus Bussola da Silva Teste' })
 
-      // asserts
+      //     // asserts
       expect(res.status).toEqual(201)
       expect(res.body._id).toBeDefined()
       expect(res.body.nome).toBe(fidedCreatedDeveloper.nome)
@@ -101,7 +101,7 @@ describe('Developers api endpoint', () => {
     })
 
     it('should allow a POST to /developers (creating another user for the tests)', async () => {
-      // arrange
+    //     // arrange
 
       const developerArrange = {
         nome: 'Heloisa Bussola da Silva Teste',
@@ -111,12 +111,12 @@ describe('Developers api endpoint', () => {
         datanascimento: '12/09/2005'
       }
 
-      // action
+      //     // action
       const res = await request.default(app).post('/developers').set('Authorization', `Bearer ${accessToken}`).send(developerArrange)
 
-      const fidedCreatedDeveloper = await developersDao.Developer.findOne({ nome: 'Heloisa Bussola da Silva Teste' })
+      const fidedCreatedDeveloper = await DeveloperModel.Developer.findOne({ nome: 'Heloisa Bussola da Silva Teste' })
 
-      // asserts
+      //     // asserts
       expect(res.status).toEqual(201)
       expect(res.body._id).toBeDefined()
       expect(res.body.nome).toBe(fidedCreatedDeveloper.nome)
@@ -127,13 +127,13 @@ describe('Developers api endpoint', () => {
     })
 
     it('should allow a GET from /developers/:developerId with an access token', async () => {
-      // action
+    //     // action
       const res = await request.default(app).get(`/developers/${firstDeveloperIdTest}`).set('Authorization', `Bearer ${accessToken}`).send()
 
-      // database developer to compare if the route brought everything correctly
-      const findedDeveloper = await developersDao.Developer.findOne({ nome: 'Thiago Bussola da Silva Teste' })
+      //     // database developer to compare if the route brought everything correctly
+      const findedDeveloper = await DeveloperModel.Developer.findOne({ nome: 'Thiago Bussola da Silva Teste' })
 
-      // asserts
+      //     // asserts
       expect(res.status).toEqual(200)
       expect(res.body._id).toBeDefined()
       expect(res.body._id).toBe(findedDeveloper._id)
@@ -146,7 +146,7 @@ describe('Developers api endpoint', () => {
     it('should allow a GET from /users', async () => {
       const res = await request.default(app).get('/developers').set('Authorization', `Bearer ${accessToken}`).send()
 
-      // asserts
+      //     // asserts
       expect(res.status).toEqual(200)
       expect(res.body).toHaveLength(3)
     })
@@ -155,7 +155,7 @@ describe('Developers api endpoint', () => {
       it('should allow a GET from /users fiter by age', async () => {
         const res = await request.default(app).get('/developers').query({ idade: 22 }).set('Authorization', `Bearer ${accessToken}`).send()
 
-        // asserts
+        //       // asserts
         expect(res.status).toEqual(200)
         expect(res.body).toHaveLength(2)
         expect(res.body[0]._id).toBe(firstDeveloperIdTest)
@@ -165,7 +165,7 @@ describe('Developers api endpoint', () => {
       it('should allow a GET from /users filter by age', async () => {
         const res = await request.default(app).get('/developers').query({ idade: 16 }).set('Authorization', `Bearer ${accessToken}`).send()
 
-        // asserts
+        //       // asserts
         expect(res.status).toEqual(200)
         expect(res.body).toHaveLength(1)
         expect(res.body[0]._id).toBe(thirdDeveloperIdTest)
@@ -174,7 +174,7 @@ describe('Developers api endpoint', () => {
       it('should allow a GET from /users filter by age and name', async () => {
         const res = await request.default(app).get('/developers').query({ idade: 22, nome: 'Mat' }).set('Authorization', `Bearer ${accessToken}`).send()
 
-        // asserts
+        //       // asserts
         expect(res.status).toEqual(200)
         expect(res.body).toHaveLength(1)
         expect(res.body[0]._id).toBe(secondDeveloperIdTest)
@@ -190,12 +190,12 @@ describe('Developers api endpoint', () => {
           lastName: 'Silva'
         })
 
-      // asserts
+      //     // asserts
       expect(res.status).toEqual(404)
     })
 
     it('should allow a PUT to /developers/:developerId to change name, sex, age, hobby and birth date', async () => {
-      // action
+    //     // action
       const res = await request.default(app)
         .put(`/developers/${thirdDeveloperIdTest}`)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -206,10 +206,9 @@ describe('Developers api endpoint', () => {
           datanascimento: '05/06/1978'
         })
 
+      const findUpdatedDeveloper = await DeveloperModel.Developer.findById(thirdDeveloperIdTest)
+
       // asserts
-
-      const findUpdatedDeveloper = await developersDao.Developer.findById(thirdDeveloperIdTest)
-
       expect(res.status).toEqual(200)
       expect(res.body.nome).toBe(findUpdatedDeveloper.nome)
       expect(res.body.sexo).toBe(findUpdatedDeveloper.sexo)
@@ -222,6 +221,8 @@ describe('Developers api endpoint', () => {
         .delete(`/developers/${firstDeveloperIdTest}`)
         .set('Authorization', `Bearer ${accessToken}`)
         .send()
+
+      // assert
       expect(res.status).toEqual(204)
     })
   })
