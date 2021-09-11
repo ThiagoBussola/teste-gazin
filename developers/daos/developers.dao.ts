@@ -34,15 +34,14 @@ class DevelopersDao {
       ...developerFields
     })
 
-   return await developer.save()
+    return developer.save()
   }
 
   async getDeveloperById (developerId: string) {
     return this.Developer.findById({ _id: developerId }).exec()
   }
 
-  async getDevelopers (limit = 25, page = 0, nome: string, sexo: string, idade: string, hobby: string) {
-
+  async getDevelopers (nome: string, sexo: string, idade: string, hobby: string, limit = 25, page = 0) {
     let filter = {}
 
     if (nome) {

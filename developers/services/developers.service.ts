@@ -8,13 +8,13 @@ class DevelopersService implements CRUD {
     return await DevelopersDao.addDeveloper(resource)
   }
 
-  async readById (id: string) {
+  async findById (id: string) {
     return await DevelopersDao.getDeveloperById(id)
   }
 
   // we are accepting number as a string as it will be passed by the request parameter
-  async listDevelopers (limit: number, page: number, nome: string, sexo: string, idade:string, hobby: string) {
-    return await DevelopersDao.getDevelopers(limit, page, nome, sexo, idade, hobby)
+  async listDevelopers (nome: string, sexo: string, idade: string, hobby: string, limit: number, page: number) {
+    return await DevelopersDao.getDevelopers(nome, sexo, idade, hobby, limit, page)
   }
 
   async putById (id: string, resource: PutDeveloperDto): Promise<any> {
@@ -24,7 +24,6 @@ class DevelopersService implements CRUD {
   async deleteById (id: string) {
     return await DevelopersDao.removeDeveloperById(id)
   }
-
 }
 
 export default new DevelopersService()

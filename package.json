@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
     "debug": "export DEBUG=* && npm start",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test-debug": "export DEBUG=* && npm test"
   },
   "repository": {

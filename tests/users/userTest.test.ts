@@ -2,18 +2,21 @@ import app from '../../app'
 import * as request from 'supertest'
 import shortid from 'shortid'
 import usersDao from '../../users/daos/users.dao'
+import mongoose from 'mongoose'
 
-describe('GET / - a simple api endpoint', () => {
+describe('Users api endpoint', () => {
   // clear database after test
   afterAll(async () => {
     await usersDao.User.deleteMany({})
+    await mongoose.connection.close()
+    app.close()
   })
 
   let firstUserIdTest = ''
   let refreshToken = ''
   const firstUserBody = {
     email: `thiagobussola+${shortid.generate()}@hotmail.com`,
-    password: 'Sup3rSecret!23'
+    password: 'Top3rSecret!23'
   }
   let accessToken = ''
   const newFirstName2 = 'Paulo'
@@ -25,7 +28,7 @@ describe('GET / - a simple api endpoint', () => {
     expect(result.statusCode).toEqual(200)
   })
 
-  it('should allow a POST to /users', async function () {
+  it('should allow a POST to /users', async () => {
     const res = await request.default(app).post('/users').send(firstUserBody)
 
     expect(res.status).toEqual(201)
@@ -33,7 +36,7 @@ describe('GET / - a simple api endpoint', () => {
     firstUserIdTest = res.body._id
   })
 
-  it('should allow a POST to /auth', async function () {
+  it('should allow a POST to /auth', async () => {
     const res = await request.default(app).post('/auth').send(firstUserBody)
 
     expect(res.status).toEqual(201)
@@ -42,7 +45,7 @@ describe('GET / - a simple api endpoint', () => {
     refreshToken = res.body.refreshToken
   })
 
-  it('should allow a GET from /users/:userId with an access token', async function () {
+  it('should allow a GET from /users/:userId with an access token', async () => {
     const res = await request.default(app).get(`/users/${firstUserIdTest}`).set('Authorization', `Bearer ${accessToken}`).send()
 
     expect(res.status).toEqual(200)
@@ -51,13 +54,13 @@ describe('GET / - a simple api endpoint', () => {
     expect(res.body.email).toEqual(firstUserBody.email)
   })
 
-  describe('with a valid access token', function () {
-    it('should allow a GET from /users', async function () {
+  describe('with a valid access token', () => {
+    it('should allow a GET from /users', async () => {
       const res = await request.default(app).get('/users').set('Authorization', `Bearer ${accessToken}`).send()
       expect(res.status).toEqual(200)
     })
 
-    it('should disallow a PUT to /users/:userId with an nonexistent ID', async function () {
+    it('should disallow a PUT to /users/:userId with an nonexistent ID', async () => {
       const res = await request.default(app).put('/users/i-do-not-exist').set('Authorization', `Bearer ${accessToken}`)
         .send({
           email: firstUserBody.email,
@@ -69,7 +72,7 @@ describe('GET / - a simple api endpoint', () => {
     })
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    it('should allow a POST to /auth/refresh-token', async function () {
+    it('should allow a POST to /auth/refresh-token', async () => {
       const res = await request.default(app)
         .post('/auth/refresh-token')
         .set('Authorization', `Bearer ${accessToken}`)
@@ -81,7 +84,7 @@ describe('GET / - a simple api endpoint', () => {
       refreshToken = res.body.refreshToken
     })
 
-    it('should allow a PUT to /users/:userId to change first and last names', async function () {
+    it('should allow a PUT to /users/:userId to change first and last names', async () => {
       const res = await request.default(app)
         .put(`/users/${firstUserIdTest}`)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -95,7 +98,7 @@ describe('GET / - a simple api endpoint', () => {
       expect(res.status).toEqual(200)
     })
 
-    it('should allow a GET from /users/:userId and should have a new full name', async function () {
+    it('should allow a GET from /users/:userId and should have a new full name', async () => {
       const res = await request.default(app)
         .get(`/users/${firstUserIdTest}`)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -109,7 +112,7 @@ describe('GET / - a simple api endpoint', () => {
       expect(res.body._id).toEqual(firstUserIdTest)
     })
 
-    it('should allow a DELETE from /users/:userId', async function () {
+    it('should allow a DELETE from /users/:userId', async () => {
       const res = await request.default(app)
         .delete(`/users/${firstUserIdTest}`)
         .set('Authorization', `Bearer ${accessToken}`)

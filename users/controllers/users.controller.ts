@@ -25,7 +25,7 @@ class UserController {
   }
 
   async getUserById (req: express.Request, res: express.Response) {
-    const user = await usersService.readById(req.body._id)
+    const user = await usersService.findById(req.body._id)
     res.status(200).send(user)
   }
 

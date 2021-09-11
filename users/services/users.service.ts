@@ -9,8 +9,8 @@ class UsersService implements CRUD {
     return await UsersDao.addUser(resource)
   }
 
-  async deleteById (id: string) {
-    return await UsersDao.removeUserById(id)
+  async findById (id: string) {
+    return await UsersDao.getUserById(id)
   }
 
   async list (limit: number, page: number) {
@@ -25,8 +25,8 @@ class UsersService implements CRUD {
     return await UsersDao.updateUserById(id, resource)
   }
 
-  async readById (id: string) {
-    return await UsersDao.getUserById(id)
+  async deleteById (id: string) {
+    return await UsersDao.removeUserById(id)
   }
 
   async getUserByEmail (email: string) {

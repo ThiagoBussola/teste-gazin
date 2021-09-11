@@ -3,7 +3,7 @@ import developersService from '../services/developers.service'
 
 class DevelopersMiddleware {
   async validateDeveloperExists (req: express.Request, res: express.Response, next: express.NextFunction) {
-    const developer = await developersService.readById(req.params.developerId)
+    const developer = await developersService.findById(req.params.developerId)
     if (developer) {
       res.locals.developer = developer
       next()

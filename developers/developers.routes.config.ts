@@ -3,7 +3,6 @@ import DevelopersController from './controllers/developers.controller'
 import DevelopersMiddleware from './middleware/developers.middleware'
 import jwtMiddleware from '../auth/middleware/jwt.middleware'
 
-
 import express from 'express'
 
 export class DevelopersRoutes extends CommonRoutesConfig {
@@ -11,14 +10,14 @@ export class DevelopersRoutes extends CommonRoutesConfig {
     super(app, 'DevelopersRoutes')
   }
 
-  //only authenticated users can use as features of developer routes
+  // only authenticated users can use as features of developer routes
   configureRoutes (): express.Application {
     this.app.route('/developers')
       .get(
         jwtMiddleware.validJWTNeeded,
         DevelopersController.listDevelopers
       )
-      .post(        
+      .post(
         jwtMiddleware.validJWTNeeded,
         DevelopersController.createDeveloper
       )
@@ -27,7 +26,7 @@ export class DevelopersRoutes extends CommonRoutesConfig {
     this.app.route('/developers/:developerId')
       .all(
         DevelopersMiddleware.validateDeveloperExists,
-        jwtMiddleware.validJWTNeeded,
+        jwtMiddleware.validJWTNeeded
       )
       .get(DevelopersController.getDeveloperById)
       .delete(DevelopersController.removeDeveloper)
