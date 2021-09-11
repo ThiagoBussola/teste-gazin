@@ -7,7 +7,9 @@
     "start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
     "debug": "export DEBUG=* && npm start",
     "test": "jest --runInBand",
-    "test-debug": "export DEBUG=* && npm test"
+    "test-debug": "export DEBUG=* && npm test",
+    "test:watch": "jest --watch --runInBand",
+    "test:cov": "jest --no-cache --runInBand --coverage"
   },
   "repository": {
     "type": "git",
