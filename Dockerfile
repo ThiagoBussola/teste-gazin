@@ -1,13 +1,6 @@
-FROM node:14-slim
-
-RUN mkdir -p /usr/src/app
-
-WORKDIR /usr/src/app
-
-COPY . .
-
+FROM node:16.9.0-slim
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install
-
-EXPOSE 3000
-
-CMD ["node", "./dist/app.js"]
+COPY . .
+CMD ["npm", "start"]

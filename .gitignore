@@ -20,3 +20,6 @@ coverage
 
 # Generate output
 dist/
+
+# container data
+data/

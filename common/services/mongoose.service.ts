@@ -1,8 +1,14 @@
 import mongoose from 'mongoose'
 import debug from 'debug'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const log: debug.IDebugger = debug('app:mongoose-service')
-
+const {
+  MONGO_HOSTNAME,
+  MONGO_PORT,
+  MONGO_DB
+} = process.env
 class MongooseService {
   private count = 0
   private readonly mongooseOptions = {
@@ -21,7 +27,11 @@ class MongooseService {
 
   connectWithRetry = () => {
     log('Attempting MongoDB connection (will retry if needed)')
-    mongoose.connect('mongodb://localhost:27017/api-db', this.mongooseOptions).then(() => {
+
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    console.log(`mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    mongoose.connect(`mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`, this.mongooseOptions).then(() => {
       log('MongoDB is connected')
     }).catch((err) => {
       const retrySeconds = 5
