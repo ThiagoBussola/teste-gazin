@@ -6,9 +6,22 @@
     "version": "1.0.0"
   },
   "basePath": "/",
+
+  "components":{
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme":"bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
   "paths": {
     "/users": {
       "post": {
+        "tags":["Users"],
+        "security": [{"bearerAuth": []}],
         "requestBody":{
           "content": {
             "application/json": {
@@ -20,10 +33,29 @@
                   },
                   "password": {
                     "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
                   }
+                },
+                "examples": {
+                  "email":"thiagobussola@email.com.br",
+                  "password": "secretpass97892",
+                  "name": "Thiago Bussola da Silva"
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "User email already exists"
+          },
+          "201": {
+            "description": "User created"
           }
         }
       }

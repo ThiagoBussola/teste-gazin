@@ -1,6 +1,5 @@
 export interface PutUserDto {
-  email: string
-  password: string
-  firstName: string
-  lastName: string
+  email?: string
+  password?: string
+  name?: string
 }

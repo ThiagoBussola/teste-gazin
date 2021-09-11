@@ -20,7 +20,6 @@ describe('Users api endpoint', () => {
   }
   let accessToken = ''
   const newFirstName2 = 'Paulo'
-  const newLastName2 = 'Faraco'
 
   it('Hello API Request', async () => {
     const result = await request.default(app).get('/')
@@ -65,8 +64,7 @@ describe('Users api endpoint', () => {
         .send({
           email: firstUserBody.email,
           password: firstUserBody.password,
-          firstName: 'Matheus',
-          lastName: 'Silva'
+          name: 'Matheus'
         })
       expect(res.status).toEqual(404)
     })
@@ -91,8 +89,7 @@ describe('Users api endpoint', () => {
         .send({
           email: firstUserBody.email,
           password: firstUserBody.password,
-          firstName: newFirstName2,
-          lastName: newLastName2
+          name: newFirstName2
         })
 
       expect(res.status).toEqual(200)
@@ -106,8 +103,7 @@ describe('Users api endpoint', () => {
 
       expect(res.status).toEqual(200)
       expect(res.body._id).toBeDefined()
-      expect(res.body.firstName).toEqual(newFirstName2)
-      expect(res.body.lastName).toEqual(newLastName2)
+      expect(res.body.name).toEqual(newFirstName2)
       expect(res.body.email).toEqual(firstUserBody.email)
       expect(res.body._id).toEqual(firstUserIdTest)
     })

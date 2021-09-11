@@ -7,8 +7,7 @@ class UserModel {
     _id: String,
     email: String,
     password: { type: String, select: false },
-    firstName: String,
-    lastName: String
+    name: String
   },
   { id: false, timestamps: true })
 
