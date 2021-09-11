@@ -11,6 +11,9 @@ import { AuthRoutes } from './auth/auth.routes.config'
 import { DevelopersRoutes } from './developers/developers.routes.config'
 import debug from 'debug'
 import helmet from 'helmet'
+import swaggerUI from 'swagger-ui-express'
+import swaggerFile from './swagger.json'
+
 const dotenvResult = dotenv.config()
 if (dotenvResult.error) {
   throw dotenvResult.error
@@ -56,6 +59,8 @@ app.use(expressWinston.logger(loggerOptions))
 routes.push(new UsersRoutes(app))
 routes.push(new AuthRoutes(app))
 routes.push(new DevelopersRoutes(app))
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 // this is a simple route to make sure everything is working properly
 const runningMessage = `Server running at http://localhost:${port}`

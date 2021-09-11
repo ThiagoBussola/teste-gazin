@@ -1,0 +1,32 @@
+{
+  "openapi":"3.0.1",
+  "info": {
+    "title": "Developers",
+    "description": "Documentation from developers api",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/users": {
+      "post": {
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+} 

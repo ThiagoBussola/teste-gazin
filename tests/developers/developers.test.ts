@@ -1,6 +1,6 @@
 import app from '../../app'
 import * as request from 'supertest'
-import shortid from 'shortid'
+import { v4 as uuid4 } from 'uuid'
 import usersDao from '../../users/daos/users.dao'
 import developersDao from '../../developers/daos/developers.dao'
 import mongoose from 'mongoose'
@@ -19,7 +19,7 @@ describe('Developers api endpoint', () => {
   let thirdDeveloperIdTest = ''
 
   const firstUserBody = {
-    email: `thiagobussolaDeveloper+${shortid.generate()}@hotmail.com`,
+    email: `thiagobussolaDeveloper+${uuid4()}@hotmail.com`,
     password: 'magistus!23'
   }
   let accessToken = ''

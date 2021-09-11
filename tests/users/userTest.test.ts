@@ -1,6 +1,6 @@
 import app from '../../app'
 import * as request from 'supertest'
-import shortid from 'shortid'
+import { v4 as uuid4 } from 'uuid'
 import usersDao from '../../users/daos/users.dao'
 import mongoose from 'mongoose'
 
@@ -15,7 +15,7 @@ describe('Users api endpoint', () => {
   let firstUserIdTest = ''
   let refreshToken = ''
   const firstUserBody = {
-    email: `thiagobussola+${shortid.generate()}@hotmail.com`,
+    email: `thiagobussola+${uuid4()}@hotmail.com`,
     password: 'Top3rSecret!23'
   }
   let accessToken = ''

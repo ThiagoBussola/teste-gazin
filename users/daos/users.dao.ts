@@ -4,7 +4,7 @@ import { PutUserDto } from '../dto/put.user.dto'
 
 import mongooseService from '../../common/services/mongoose.service'
 
-import shortid from 'shortid'
+import { v4 as uuid4 } from 'uuid'
 import debug from 'debug'
 
 const log: debug.IDebugger = debug('app:in-memory-dao')
@@ -28,7 +28,7 @@ class UsersDao {
   }
 
   async addUser (userFields: CreateUserDto) {
-    const userId = shortid.generate()
+    const userId = uuid4()
     const user = new this.User({
       _id: userId,
       ...userFields

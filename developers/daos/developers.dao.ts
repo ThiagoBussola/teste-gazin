@@ -3,7 +3,7 @@ import { PutDeveloperDto } from '../dto/put.developer.dto'
 
 import mongooseService from '../../common/services/mongoose.service'
 
-import shortid from 'shortid'
+import { v4 as uuid4 } from 'uuid'
 import debug from 'debug'
 
 const log: debug.IDebugger = debug('app:in-memory-dao')
@@ -28,7 +28,7 @@ class DevelopersDao {
   }
 
   async addDeveloper (developerFields: CreateDeveloperDto) {
-    const developerId = shortid.generate()
+    const developerId = uuid4()
     const developer = new this.Developer({
       _id: developerId,
       ...developerFields
