@@ -29,8 +29,7 @@ class UsersMiddleware {
     }
   }
 
-  async validateUserExists (req: express.Request, res: express.Response, next: express.NextFunction
-  ) {
+  async validateUserExists (req: express.Request, res: express.Response, next: express.NextFunction) {
     const user = await userService.readById(req.params.userId)
     if (user) {
       res.locals.user = user
