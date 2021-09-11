@@ -14,8 +14,20 @@ class DeveloperController {
   }
 
   async listDevelopers (req: express.Request, res: express.Response) {
-    const developers = await developersService.list(100, 0)
-    res.status(200).send(developers)
+    try {
+      const nome = req.query['nome'] as string
+      const sexo = req.query['sexo'] as string
+      // we are accepting number as a string as it will be passed by the request parameter
+      const idade = req.query['idade'] as string
+      const hobby = req.query['hobby'] as string
+
+      const developers = await developersService.listDevelopers(100, 0, nome, sexo, idade, hobby)
+      res.status(200).send(developers)
+
+    } catch(err) {
+
+    }
+
   }
 
   async putDeveloper (req: express.Request, res: express.Response) {
@@ -30,3 +42,4 @@ class DeveloperController {
 }
 
 export default new DeveloperController()
+ 

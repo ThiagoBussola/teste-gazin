@@ -12,8 +12,9 @@ class DevelopersService implements CRUD {
     return await DevelopersDao.getDeveloperById(id)
   }
 
-  async list (limit: number, page: number) {
-    return await DevelopersDao.getDevelopers(limit, page)
+  // we are accepting number as a string as it will be passed by the request parameter
+  async listDevelopers (limit: number, page: number, nome: string, sexo: string, idade:string, hobby: string) {
+    return await DevelopersDao.getDevelopers(limit, page, nome, sexo, idade, hobby)
   }
 
   async putById (id: string, resource: PutDeveloperDto): Promise<any> {

@@ -41,8 +41,38 @@ class DevelopersDao {
     return this.Developer.findById({ _id: developerId }).exec()
   }
 
-  async getDevelopers (limit = 25, page = 0) {
-    return this.Developer.find()
+  async getDevelopers (limit = 25, page = 0, nome: string, sexo: string, idade: string, hobby: string) {
+
+    let filter = {}
+
+    if (nome) {
+      filter = {
+        ...filter,
+        nome: new RegExp(nome, 'gim')
+      }
+    }
+    if (sexo) {
+      filter = {
+        ...filter,
+        sexo: new RegExp(sexo, 'gim')
+      }
+    }
+
+    if (idade) {
+      filter = {
+        ...filter,
+        idade
+      }
+    }
+
+    if (hobby) {
+      filter = {
+        ...filter,
+        hobby: new RegExp(hobby, 'gim')
+      }
+    }
+
+    return this.Developer.find(filter)
       .limit(limit)
       .skip(limit * page)
       .exec()
