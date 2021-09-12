@@ -2,7 +2,7 @@
 API Desenvolvida para o teste prático da empresa gazin
 
 # Comandos habilitados
-  Segue abaixo a lista de comandos habilitados para a aplicação
+  Segue abaixo a lista de comandos habilitados para a aplicação (Rode os comandos dentro da pasta raiz da aplicação)
 
   # Para rodar a aplicação no docker:
     1 - `docker build -t gazin-app .`
