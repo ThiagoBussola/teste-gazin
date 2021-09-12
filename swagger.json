@@ -20,8 +20,8 @@
   "paths": {
     "/users": {
       "post": {
+        "description": "Create a user to access the application",
         "tags":["Users"],
-        "security": [{"bearerAuth": []}],
         "requestBody":{
           "content": {
             "application/json": {
@@ -38,7 +38,7 @@
                     "type": "string"
                   }
                 },
-                "examples": {
+                "example": {
                   "email":"thiagobussola@email.com.br",
                   "password": "secretpass97892",
                   "name": "Thiago Bussola da Silva"
@@ -56,6 +56,389 @@
           },
           "201": {
             "description": "User created"
+          }
+        }
+      },
+      "get": {
+        "description": "Find All Users (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Users"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "description": "Find User by id (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Users"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User id to search",
+            "required":true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },          
+          "404": {
+            "description": "User {userId} not found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "description": "Update User (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Users"],
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email":"matheus@email.com.br",
+                  "password": "secretpassas14472",
+                  "name": "MAtheus Bussola da Silva"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "User email already exists"
+          },
+          "404": {
+            "description": "User {userId} not found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "description": "Update one User field (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Users"],
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email":"julio@email.com.br"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "User email already exists"
+          },
+          "404": {
+            "description": "User {userId} not found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete User (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Users"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User {userId} not found"
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "description":"Authenticates a user to create the accessToken (JWT), so that we have access to the other routes of the application",
+        "tags":["Auth"],
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email":"thiagobussola@email.com.br",
+                  "password": "secretpass97892"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/auth/refreshToken": {
+      "post": {
+        "tags":["Auth"],
+        "security": [{"bearerAuth": []}],
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "refreshToken":"aeuihiuhdiuhaui84k1lçmlknmds91m,dlaçsjd981u1927j=d=="
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/developers": {
+      "post": {
+        "description": "Create a developer (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Developers"],
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "sexo": {
+                    "type": "string"
+                  },
+                  "idade": {
+                    "type": "number"
+                  },
+                  "hobby": {
+                    "type": "string"
+                  },
+                  "datanascimento": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "nome":"Thiago Bussola da Silva",
+                  "sexo": "M",
+                  "idade": 22,
+                  "hobby": "Ler",
+                  "datanascimento":"09/12/1998"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201": {
+            "description": "Developer created"
+          }
+        }
+      },
+      "get": {
+        "description": "Find All Developers, and filter by nome, sexo, idade, hobby e datanascimento (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Developers"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "nome",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "sexo",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "idade",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "hobby",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "datanascimento",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/developers/{developerId}": {
+      "get": {
+        "description": "Find Developer by id (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Developers"],
+        "parameters": [
+          {
+            "name": "developerId",
+            "in": "path",
+            "description": "Developer id to search",
+            "required":true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },          
+          "404": {
+            "description": "Developer {developerId} not found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },      
+      "put": {
+        "description": "Update Developer (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Developers"],
+        "requestBody":{
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "sexo": {
+                    "type": "string"
+                  },
+                  "idade": {
+                    "type": "number"
+                  },
+                  "hobby": {
+                    "type": "string"
+                  },
+                  "datanascimento": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "nome":"Ana Lucia Bussola da Silva",
+                  "sexo": "F",
+                  "idade": 48,
+                  "hobby": "Ler e Estudar",
+                  "datanascimento":"07/06/1978"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Developer {developerId} not found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete Developer (Need authentication first)",
+        "security": [{"bearerAuth": []}],
+        "tags":["Developers"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Developer {developerId} not found"
+          },
+          "204": {
+            "description": "OK"
           }
         }
       }
