@@ -32,10 +32,12 @@ API Desenvolvida para o teste prático da empresa gazin
   Insomnia ou Postman: 
     - Caso prefira optar pelo Insomnia ou Postman para fazer as requisições, eu disponibilizei uma exportação das rotas que criei, o arquivo é o Insomnia_requests.json
     
-    
-  - Primeiro crie um usuário em post /users
-  - Depois autentique o usuário criado em /auth
-  - Agora você possui o token JWT retornado em acessToken, utilize ele nas autorizações Barear para ter acesso a todas as rotas da aplicação :D
+  - Eu deixei um usuário pré criado e alguns desenvolvedores para facilitar as visualizações na documentação, então quando for criar um usuário LEMBRE de alterar o email do usuário default para um qualquer de sua preferencia!
+  - Caso não queria criar um usuário pule direto para a rota de /auth e autentique o usuário defualt!
+  - Agora vamos ao passo-a-passo:
+    - Primeiro crie um usuário em post /users
+    - Depois autentique o usuário criado em /auth
+    - Agora você possui o token JWT retornado em acessToken, utilize ele nas autorizações Barear para ter acesso a todas as rotas da aplicação :D
   
   # Rota Developers
     - A rota developers é a principal da aplicação:
