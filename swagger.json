@@ -381,6 +381,14 @@
         "description": "Update Developer (Need authentication first)",
         "security": [{"bearerAuth": []}],
         "tags":["Developers"],
+        "parameters": [
+          {
+            "name": "developerId",
+            "in": "path",
+            "description": "Developer id to search",
+            "required":true
+          }
+        ],
         "requestBody":{
           "content": {
             "application/json": {
@@ -430,6 +438,14 @@
         "description": "Delete Developer (Need authentication first)",
         "security": [{"bearerAuth": []}],
         "tags":["Developers"],
+        "parameters": [
+          {
+            "name": "developerId",
+            "in": "path",
+            "description": "Developer id to search",
+            "required":true
+          }
+        ],
         "responses": {
           "401": {
             "description": "Unauthorized"
